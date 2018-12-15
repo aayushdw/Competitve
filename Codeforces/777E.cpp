@@ -1,0 +1,104 @@
+#include<bits/stdc++.h>
+ 
+#define si(x) scanf("%d",&x)
+#define sl(x) scanf("%lld",&x)
+#define pr(x) printf("%d\n",x)
+#define prll(x) printf("%lld\n",x)
+ 
+#define ll long long int
+#define ull unsigned long long int
+#define F first
+#define S second
+ 
+#define rep(i,x,y) for(int i=x;i<y;i++)
+#define ii pair<int,int> 
+#define pll pair<ll,ll> 
+#define vi vector<int> 
+#define vvi vector< vi > 
+#define vl vector<long long int>
+#define vvl vector< vl >
+#define vii vector< ii >
+#define vvii vector< vii >
+#define sz(a) ll((a).size()) 
+#define pb push_back 
+#define mp make_pair
+ 
+#define ROUNDOFFINT(d) d = (int)((double)d + 0.5)
+#define SET(a,b) memset(a,b,sizeof(a))
+#define all(c) (c).begin(),(c).end() 
+#define tr(i,c) for(typeof((c).begin()) i = (c).begin(); i != (c).end(); i++) 
+#define present(c,x) ((c).find(x) != (c).end()) 
+#define cpresent(c,x) (find(all(c),x) != (c).end())
+#define ison(x,i) (((x) >> (i)) & 1)	//checks if ith bit is on
+#define set0(x,i) (x & ~(1 << i))		//set ith bit in x to be zero
+#define clr(a) memset(a,0,sizeof(a))
+ 
+#define MOD 1000000007
+#define INF 4000000000000000000
+#define MAX 100000+5
+using namespace std;
+
+vector< pair< ii , int > > v;
+
+class DSU
+{
+	public:
+	vi par,rank,sum;
+	vl ans;
+	void init(int n)
+	{
+		par.assign(n,0);
+		ans.assign(n,0ll);
+		rank.assign(n,1);
+		sum.assign(n,0);
+		rep(i,0,n)
+		{
+			par[i]=i;
+			ans[i]=v[i].S;
+		}
+	}
+	int find(int u)
+	{	return (par[u]==u)?u:find(par[u]);	}
+	int getSum(int u)
+	{	return (par[u]==u)?0:sum[u]^getSum(par[u]);	}
+	void unite(int x,int v,int val)
+	{
+		x=find(x); v=find(v);
+		if(x==v) return;
+		if(rank[x]>rank[v]) swap(x,v);
+		par[x]=v;
+		rank[v]+=rank[x];
+		ans[v]+=ans[x];
+		sum[x]=val;
+	}
+};
+
+int main()
+{
+	int n,a,b,h;
+	si(n);
+	rep(i,0,n)
+	{
+		si(a); si(b); si(h);
+		v.pb(mp(mp(a,b),h));
+	}
+	sort(v.rbegin(),v.rend());
+	printf("\n");
+	rep(i,0,n)
+	{
+		printf("%d %d %d\n",v[i].F.F,v[i].F.S,v[i].S);
+	}
+	DSU p;
+	p.init(n);
+	rep(i,1,v.size())
+	if(v[i].F.F>v[i-1].F.S)
+	{
+		printf("%d %d\n",i,i-1);
+		p.unite(i-1,i,0);
+	}
+	ll x=0;
+	rep(i,0,n)
+	x=max(x,p.ans[i]);
+	prll(x);
+	return 0;
+}

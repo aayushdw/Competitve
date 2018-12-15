@@ -1,0 +1,56 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define rep(i, begin, end) for(auto (i) = (begin) - ((begin) > (end)); (i) != (end) - ((begin) > (end)); (i) += 1 - 2 * ((begin) > (end)))
+#define mp make_pair
+#define F  first
+#define S  second
+#define pb push_back
+#define all(v) (v).begin(),(v).end() 
+#define reset(a,b) memset(a,b,sizeof(a))
+typedef long long ll;
+typedef long long INT;
+typedef pair<INT,INT > pii;
+typedef vector<pii> vpii;
+typedef vector<INT> vi;
+
+// // certain useful variadic function
+// int sum() { return 0; }
+// template<typename T, typename... Args>
+// T sum(T a, Args... args) { return a + sum(args...); }
+
+const int oo = (int) 1e9;
+const double PI = 2 * acos(0.0);
+const double eps = 1e-9;
+const INT MOD = (int)1e9 + 7;
+const INT maxn = 100005;
+int main()
+{
+    int t;
+    ll a[500];
+    cin>>t;
+    for(int cc=1;cc<=t;cc++)
+    {
+    	int n;
+        cin>>n;
+        for(int i=0;i<n;i++) cin>>a[i];
+        sort(a,a+n);
+        // for(int i=0;i<n;i++) cout<<a[i]<<" ";
+        // cout<<"\n";
+        int x=0;
+        int y=n-1;
+        int ans=0;
+        while(x<=y)
+        {
+            if(a[y]>=50) {ans++;y--;continue;}
+            int cnt = 50/a[y] + (50%a[y]!=0) -1;
+            x+=cnt;
+            // cout<<x<<" "<<y<<" "<<cnt<<"\n";
+            if(x>y) break;
+            y--;
+            ans++;
+        }
+        cout<<"Case #"<<cc<<": "<<ans<<"\n";
+
+    }
+    return 0;
+}
